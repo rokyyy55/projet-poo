@@ -1,24 +1,72 @@
 package examen;
 import java.util.*;
-
+import examen.room;
+import examen.roomreservation;
 public class Modeluser {
-    String username;
-    String password;
-    boolean isAdmin;
-    HashMap<String, String> Users; // Note: HashMap is uppercase, and Users is lowercase
+ 
+	 String username;
+	    String password;
 
-    public Modeluser(String username, String password, boolean isAdmin) {
-        this.username = username;
-        this.password = password;
-        this.isAdmin = isAdmin;
-        this.Users = new HashMap<>(); // Initialize the HashMap
-    }
+	    public Modeluser(String username, String password) {
+	        this.username = username;
+	        this.password = password;
+	    }
+	}
 
-    public boolean authenticate(String inputUsername, String inputPassword) {
-        return this.username.equals(inputUsername) && this.password.equals(inputPassword);
-    }
+	// Subclass for administrators
+	class Admin extends Modeluser {
+	    public Admin(String username, String password) {
+	        super(username, password);
+	    }
+	    roomreservation reservationManager;
 
-    public void addUser(String username, String password) {
-        Users.put(username, password);
-    }
-}
+	    public Admin(String username, String password, roomreservation reservationManager) {
+	        super(username, password);
+	        this.reservationManager = reservationManager;
+	    }
+
+	    // Method to add a room
+	    public void addRoom(room roomNumber, int clientId) {
+	        // Assuming you have a method to add a room in the roomreservation class
+	        reservationManager.addReservation(roomNumber, clientId);
+	        System.out.println("Room added successfully.");
+	    }
+
+	    // Method to modify a room
+	   
+	    public void modifyRoom(room roomNumber, int clientId) {
+	        // Assuming you have a method to modify a room in the roomreservation class
+	        reservationManager.addReservation(roomNumber, clientId);
+	        System.out.println("Room modified successfully.");
+	    }
+
+	    // Method to delete a room
+	    public void deleteRoom(room roomNumber) {
+	        // Assuming you have a method to remove a room in the roomreservation class
+	        reservationManager.removeReservation(roomNumber);
+	        System.out.println("Room deleted successfully.");
+	    }
+	    
+	}
+
+	// Subclass for clients
+	class Client extends Modeluser {
+		String idclient;
+		String datei,datef;
+	    public Client(String username, String password,String idclient,String datei, String datef) {
+	        super(username, password);
+	        this.idclient=idclient;
+	        this.datei=datei;
+	        this.datef=datef;
+	        
+	        
+	        
+	    }
+
+	    // Add additional methods specific to clients if needed
+	
+
+
+		
+	}
+
