@@ -26,7 +26,7 @@ public class Modeluser {
 	    }
 
 	    // Method to add a room
-	    public void addRoom(room roomNumber, int clientId) {
+	    public void addRoom(room roomNumber, int clientId ) {
 	        // Assuming you have a method to add a room in the roomreservation class
 	        reservationManager.addReservation(roomNumber, clientId);
 	        System.out.println("Room added successfully.");
@@ -34,7 +34,7 @@ public class Modeluser {
 
 	    // Method to modify a room
 	   
-	    public void modifyRoom(room roomNumber, int clientId) {
+	    public void modifyRoom(room roomNumber, int clientId ) {
 	        // Assuming you have a method to modify a room in the roomreservation class
 	        reservationManager.addReservation(roomNumber, clientId);
 	        System.out.println("Room modified successfully.");
@@ -52,12 +52,12 @@ public class Modeluser {
 	// Subclass for clients
 	class Client extends Modeluser {
 		String idclient;
-		String datei,datef;
-	    public Client(String username, String password,String idclient,String datei, String datef) {
+		int days;
+	    public Client(String username, String password,String idclient,int days) {
 	        super(username, password);
 	        this.idclient=idclient;
-	        this.datei=datei;
-	        this.datef=datef;
+	        this.days=days;
+	        
 	        
 	        
 	        
