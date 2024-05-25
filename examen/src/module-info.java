@@ -4,5 +4,5 @@
 /**
  * 
  */
-module examen {
+module examen {requires java.desktop;
 }
