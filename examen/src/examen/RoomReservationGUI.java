@@ -63,7 +63,7 @@ public class RoomReservationGUI {
         JButton loginButton = new JButton("Login");
         loginButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
+                String username = usernameField.getText().trim();
                 String password = new String(passwordField.getPassword());
                 String role = (String) roleComboBox.getSelectedItem();
                 login(username, password, role);
@@ -75,7 +75,9 @@ public class RoomReservationGUI {
         frame.setVisible(true);
     }
 
-    public void showMainGUI() {
+    private void initializeMainGUI(String role) {
+        frame.dispose(); // Dispose of the login frame
+
         JFrame mainFrame = new JFrame();
         mainFrame.setBounds(100, 100, 600, 400);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,9 +119,26 @@ public class RoomReservationGUI {
         deleteReservationButton.setBounds(280, 200, 150, 30);
         mainFrame.getContentPane().add(deleteReservationButton);
 
+        JButton chooseRoomTypeButton = new JButton("Choose Room Type");
+        chooseRoomTypeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Open a dialog to choose room type
+                String[] roomTypes = {"Single", "Double", "Suite"};
+                String roomType = (String) JOptionPane.showInputDialog(mainFrame,
+                        "Choose Room Type:", "Room Type Selection", JOptionPane.QUESTION_MESSAGE,
+                        null, roomTypes, roomTypes[0]);
+
+                if (roomType != null) {
+                    controller.selectRoomType(roomType);
+                }
+            }
+        });
+        chooseRoomTypeButton.setBounds(180, 250, 200, 30);
+        mainFrame.getContentPane().add(chooseRoomTypeButton);
+
         textArea = new JTextArea();
         JScrollPane scrollPane = new JScrollPane(textArea);
-        scrollPane.setBounds(50, 250, 500, 100);
+        scrollPane.setBounds(50, 300, 500, 100);
         mainFrame.getContentPane().add(scrollPane);
 
         mainFrame.setVisible(true);
@@ -133,27 +152,22 @@ public class RoomReservationGUI {
         }
     }
 
-    public void start() {
-        showMainGUI();
-    }
-
     private void login(String username, String password, String role) {
         if (username.isEmpty() || password.isEmpty()) {
             JOptionPane.showMessageDialog(frame, "Username and password cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (role.equals("admin") && username.equals("admin") && password.equals("admin")) {
-            showMainGUI();
-            frame.dispose();
-            controller.login(username, password, role);
-        } else if (role.equals("client") && username.equals("client") && password.equals("client")) {
-            showMainGUI();
-            frame.dispose();
-            controller.login(username, password, role);
+        boolean loggedIn = controller.login(username, password, role);
+        if (loggedIn) {
+            initializeMainGUI(role);
         } else {
             JOptionPane.showMessageDialog(frame, "Invalid username or password for the selected role.", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public void start() {
+        // Start the initial login frame
     }
 
     public static void main(String[] args) {

@@ -10,16 +10,16 @@ public class Controller {
         this.view = view;
     }
 
-    public void login(String username, String password, String role) {
+    public boolean login(String username, String password, String role) {
         // You can implement your login logic here
-        // For now, let's just display a message in the GUI
+        // For now, let's just validate based on the provided role and credentials
 
-        if (username.equals("admin") && password.equals("admin") && role.equals("admin")) {
-            view.updateTextArea("Login successful as admin.");
-        } else if (username.equals("client") && password.equals("client") && role.equals("client")) {
-            view.updateTextArea("Login successful as client.");
+        if ("admin".equals(role) && "admin".equals(username) && "admin".equals(password)) {
+            return true;
+        } else if ("client".equals(role) && "client".equals(username) && "client".equals(password)) {
+            return true;
         } else {
-            view.updateTextArea("Invalid username, password, or role.");
+            return false;
         }
     }
 
@@ -33,5 +33,10 @@ public class Controller {
         // Implement deleting reservation logic here
         // For now, let's just display a message in the GUI
         view.updateTextArea("Deleting reservation for client ID " + clientId);
+    }
+
+    public void selectRoomType(String roomType) {
+        // Handle room type selection here
+        view.updateTextArea("Selected room type: " + roomType);
     }
 }
